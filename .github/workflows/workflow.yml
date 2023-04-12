@@ -4,7 +4,7 @@ on:
   schedule:
     # "At 23:01."
     #   https://crontab.guru/#1_23_*_*_*
-    - cron: "1 23 * * *"
+    - cron: "50 10 * * *"
 
 jobs:
   fetch_publish:
@@ -47,7 +47,7 @@ jobs:
         uses: josStorer/get-current-time@v2.0.2
         with:
           format: "YYYYMMDDHHmmss"
-          utcOffset: "+09:00"
+          utcOffset: "+00:00"
 
       - name: Upload artifact "${{ env.downloaded_json_file_name }}"
         uses: actions/upload-artifact@v3.1.1
@@ -68,3 +68,12 @@ jobs:
           tag: ${{ steps.my_luminous_watch.outputs.formattedTime }}
           artifacts: "${{ env.generated_markdown_file_name }}"
           body: ${{ steps.read_result_file.outputs.content }}
+          
+      - name: Delete Older Release
+        uses: dev-drprasad/delete-older-releases@v0.2.1
+        with:
+          repo: floodslake/ncp-live-finder
+          keep_latest: 14
+          delete_tags: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
