@@ -64,9 +64,21 @@ while read -r channel_info; do
 
       thumbnail_url="$(jq --raw-output '.thumbnail_url' <<<"${live_info}")";
       if [[ "${thumbnail_url}" != 'null' ]]; then
-        thumbnail_element="<img alt=\"${title}\" src=\"${thumbnail_url}\" height=\"128px\">"
+        thumbnail_element="<img alt=\"${title}\" src=\"${thumbnail_url}\" height=\"75px\">"
       else
         thumbnail_element='<i>no thumbnail</i>'
+      fi;
+      
+      if [[ "${video_allow_dvr_flg}" == 'false' ]]; then
+        status_dvr='&#10060'
+      else
+        status_dvr="&#9989"
+      fi;
+      
+      if [[ "${video_convert_to_vod_flg}" == 'false' ]]; then
+        status_vod='&#10060'
+      else
+        status_vod="&#9989"
       fi;
 
       if [[ ${now_second} -le ${live_scheduled_start_at_second} ]]; then
@@ -75,16 +87,10 @@ while read -r channel_info; do
           value="$(
             cat <<-TABLE_ROW
 						  <tr>
-						    <td>${live_scheduled_start_at}</td>
-						    <td>
-						      <a href="${domain}/live/${content_code}">${content_code}</a>
-						      <br>
-						      ${thumbnail_element}
-						      <br>
-						      ${title}
-						    </td>
-						    <td>${video_allow_dvr_flg}</td>
-						    <td>${video_convert_to_vod_flg}</td>
+						    <td>${live_scheduled_start_at}<br><a href="${domain}/lives">${thumbnail_element}</a></td>
+						    <td><a href="${domain}/live/${content_code}">${content_code}</a><br>${title}</td>
+						    <td>${status_dvr}</td>
+						    <td>${status_vod}</td>
 						  </tr>
 						TABLE_ROW
           )"
@@ -124,10 +130,10 @@ echo '<table>'
 
 cat <<'TABLE_HEADER'
   <thead>
-    <th>START (UTC)</th>
-    <th>Thumbnail, URL & Title</th>
-    <th>allow_dvr_flg</th>
-    <th>convert_to_vod_flg</th>
+    <th width="165px">START (UTC)</th>
+    <th>URL & Title</th>
+    <th>DVR</th>
+    <th>VOD</th>
   </thead>
 TABLE_HEADER
 
