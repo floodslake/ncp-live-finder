@@ -88,8 +88,8 @@ while read -r channel_info; do
           value="$(
             cat <<-TABLE_ROW
 						  <tr>
-						    <td>${live_scheduled_start_at}<br><a href="${domain}/lives">${thumbnail_element}</a></td>
-						    <td><a href="${domain}/live/${content_code}">${content_code}</a><br><pre><code>${title}</code></pre></td>
+						    <td>${live_scheduled_start_at}<br><a href="${domain}/lives" rel="noreferrer noopener" target="_blank">${thumbnail_element}</a></td>
+						    <td><a href="${domain}/live/${content_code}" rel="noreferrer noopener" target="_blank">${content_code}</a><br><pre><code>${title}</code></pre></td>
 						    <td>${status_dvr}</td>
 						    <td>${status_vod}</td>
 						  </tr>
