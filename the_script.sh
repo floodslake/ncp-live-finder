@@ -72,13 +72,14 @@ while read -r channel_info; do
       if [[ "${video_allow_dvr_flg}" == 'false' ]]; then
         status_dvr='&#10060'
       else
-        status_dvr="&#9989"
+        status_dvr=""
       fi;
       
       if [[ "${video_convert_to_vod_flg}" == 'false' ]]; then
         status_vod='&#10060'
       else
-        status_vod="&#9989"
+#         status_vod="&#9989"
+        status_vod=""
       fi;
 
       if [[ ${now_second} -le ${live_scheduled_start_at_second} ]]; then
@@ -88,7 +89,7 @@ while read -r channel_info; do
             cat <<-TABLE_ROW
 						  <tr>
 						    <td>${live_scheduled_start_at}<br><a href="${domain}/lives">${thumbnail_element}</a></td>
-						    <td><a href="${domain}/live/${content_code}">${content_code}</a><br>${title}</td>
+						    <td><a href="${domain}/live/${content_code}">${content_code}</a><br><pre><code>${title}</code></pre></td>
 						    <td>${status_dvr}</td>
 						    <td>${status_vod}</td>
 						  </tr>
@@ -130,7 +131,7 @@ echo '<table>'
 
 cat <<'TABLE_HEADER'
   <thead>
-    <th width="165px">START (UTC)</th>
+    <th>START (UTC)</th>
     <th>URL & Title</th>
     <th>DVR</th>
     <th>VOD</th>
