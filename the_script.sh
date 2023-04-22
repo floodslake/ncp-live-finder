@@ -41,7 +41,7 @@ while read -r channel_info; do
     if [[ "${live_list}" != '[]' ]]; then
       content_code="$(jq --raw-output '.[0].content_code' <<<"${live_list}")";
 
-      echo "processing [${content_code}]" >/dev/stderr
+      echo "processing [${domain}/live/${content_code}]" >/dev/stderr
 
       live_info="$(
         curl -sS \
