@@ -64,7 +64,7 @@ while read -r channel_info; do
 
       thumbnail_url="$(jq --raw-output '.thumbnail_url' <<<"${live_info}")";
       if [[ "${thumbnail_url}" != 'null' ]]; then
-        thumbnail_element="<img alt=\"${title}\" src=\"${thumbnail_url}\" height=\"75px\">"
+        thumbnail_element="<img alt=\"${title}\" src=\"${thumbnail_url}\" height=\"72\" style=\"display: block;\">"
       else
         thumbnail_element='<i>no thumbnail</i>'
       fi;
@@ -88,8 +88,8 @@ while read -r channel_info; do
           value="$(
             cat <<-TABLE_ROW
 						  <tr>
-						    <td>${live_scheduled_start_at}<br><a href="${domain}/lives" rel="noreferrer noopener" target="_blank">${thumbnail_element}</a></td>
-						    <td><a href="${domain}/live/${content_code}" rel="noreferrer noopener" target="_blank">${content_code}</a><br>${title}</td>
+						    <td><a href="${domain}/lives" rel="noreferrer noopener" target="_blank">${thumbnail_element}</a></td>
+						    <td>${live_scheduled_start_at}<br><a href="${domain}/live/${content_code}" rel="noreferrer noopener" target="_blank">${content_code}</a><br>${title}</td>
 						    <td>${status_dvr}</td>
 						    <td>${status_vod}</td>
 						  </tr>
@@ -131,8 +131,8 @@ echo '<table>'
 
 cat <<'TABLE_HEADER'
   <thead>
-    <th>START (UTC)</th>
-    <th>URL & Title</th>
+    <th>Thumbnail</th>
+    <th>START (UTC), URL & Title</th>
     <th>DVR</th>
     <th>VOD</th>
   </thead>
