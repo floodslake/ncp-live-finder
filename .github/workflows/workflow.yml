@@ -2,9 +2,12 @@ name: Workflow
 on:
   workflow_dispatch:
   schedule:
-    # "At 23:01."
-    #   https://crontab.guru/#1_23_*_*_*
+    # "At 07:50"
+    # https://crontab.guru/#50_10_*_*_*
     - cron: "50 10 * * *"
+    # "At 09:50"
+    # https://crontab.guru/#50_13_*_*_5,6,0
+    - cron: "50 13 * * 5,6"
 
 jobs:
   fetch_publish:
