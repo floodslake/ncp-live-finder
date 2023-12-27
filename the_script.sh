@@ -17,7 +17,9 @@ channel_list_json="$2"
 file "${channel_list_json}" >/dev/stderr
 
 now_second=$(date '+%s');
+one_hours=3600
 limit_second=$((${now_second} + ${offset_second}));
+last_hours=$((${now_second} - ${one_hours}));
 
 
 # collect live
@@ -82,7 +84,7 @@ while read -r channel_info; do
         status_vod=""
       fi;
 
-      if [[ ${now_second} -le ${live_scheduled_start_at_second} ]]; then
+      if [[ ${last_hours} -le ${live_scheduled_start_at_second} ]]; then
         if [[ ${live_scheduled_start_at_second} -le ${limit_second} ]]; then
           key="${live_scheduled_start_at_second} ${content_code}"
           value="$(
