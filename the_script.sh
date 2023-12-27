@@ -89,7 +89,7 @@ while read -r channel_info; do
         cat <<-TABLE_ROW
 			<tr>
 				<td><a href="${domain}/lives" rel="noreferrer noopener" target="_blank">${thumbnail_element}</a></td>
-				<td>${live_scheduled_start_at} <a href="${domain}/live/${content_code}" rel="noreferrer noopener" target="_blank">${content_code}</a><br>${title}</td>
+				<td>${live_scheduled_start_at} <a href="${domain}/live/${content_code}" rel="noreferrer noopener" target="_blank">${content_code}</a> &#x1F534<br>${title}</td>
 				<td>${status_dvr}</td>
 				<td>${status_vod}</td>
 			</tr>
@@ -97,7 +97,7 @@ while read -r channel_info; do
       )"
       live_timestamp_code_row_map["${key}"]="${value}"
 
-      echo -e '\t''collected' >/dev/stderr
+      echo -e '\t''collected live' >/dev/stderr
     fi;
   fi;
 done < <(<"${channel_list_json}" jq --compact-output '.data.content_providers | .[]')
