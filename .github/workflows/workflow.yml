@@ -73,6 +73,7 @@ jobs:
           body: ${{ steps.read_result_file.outputs.content }}
           
       - name: Delete Older Release
+        if: github.ref == 'refs/heads/main'
         uses: dev-drprasad/delete-older-releases@v0.2.1
         with:
           repo: floodslake/ncp-live-finder
