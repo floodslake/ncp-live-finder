@@ -33,7 +33,7 @@ while read -r channel_info; do
   live_page_info="$(
     curl -sS \
       -H 'fc_use_device: null' \
-      "https://nfc-api.nicochannel.jp/fc/fanclub_sites/${fanclub_site_id}/live_pages?page=1&live_type=2&per_page=1" | \
+      "https://nfc-api.nicochannel.jp/fc/fanclub_sites/${fanclub_site_id}/live_pages?page=1&live_type=1&per_page=1" | \
     jq '.data' \
   )";
 
@@ -85,6 +85,90 @@ while read -r channel_info; do
       fi;
 
       if [[ ${last_hours} -le ${live_scheduled_start_at_second} ]]; then
+        if [[ ${live_scheduled_start_at_second} -le ${limit_second} ]]; then
+          key="${live_scheduled_start_at_second} ${content_code}"
+          value="$(
+            cat <<-TABLE_ROW
+						  <tr>
+						    <td><a href="${domain}/lives" rel="noreferrer noopener" target="_blank">${thumbnail_element}</a></td>
+						    <td>${live_scheduled_start_at} <a href="${domain}/live/${content_code}" rel="noreferrer noopener" target="_blank">${content_code}</a><br>${title}</td>
+						    <td>${status_dvr}</td>
+						    <td>${status_vod}</td>
+						  </tr>
+						TABLE_ROW
+          )"
+          live_timestamp_code_row_map["${key}"]="${value}"
+
+          echo -e '\t''collected' >/dev/stderr
+
+          continue
+        fi;
+      fi;
+
+      echo -e '\t''ignored' >/dev/stderr
+    fi;
+  fi;
+done < <(<"${channel_list_json}" jq --compact-output '.data.content_providers | .[]')
+
+while read -r channel_info; do
+  fanclub_site_id="$(jq --raw-output '.id' <<<"${channel_info}")";
+  domain="$(jq --raw-output '.domain' <<<"${channel_info}")";
+
+  live_page_info="$(
+    curl -sS \
+      -H 'fc_use_device: null' \
+      "https://nfc-api.nicochannel.jp/fc/fanclub_sites/${fanclub_site_id}/live_pages?page=1&live_type=2&per_page=1" | \
+    jq '.data' \
+  )";
+
+  if [[ "${live_page_info}" != 'null' ]]; then
+    live_list="$(jq '.video_pages.list' <<<"${live_page_info}")";
+
+    if [[ "${live_list}" != '[]' ]]; then
+      content_code="$(jq --raw-output '.[0].content_code' <<<"${live_list}")";
+
+      echo "processing [${domain}/live/${content_code}]" >/dev/stderr
+
+      live_info="$(
+        curl -sS \
+          -H 'fc_use_device: null' \
+          "https://nfc-api.nicochannel.jp/fc/video_pages/${content_code}" | \
+        jq '.data.video_page' \
+      )";
+
+      live_scheduled_start_at="$(jq --raw-output '.live_scheduled_start_at' <<<"${live_info}")";
+
+      video_allow_dvr_flg="$(jq --raw-output '.video.allow_dvr_flg' <<<"${live_info}")";
+      [[ "${video_allow_dvr_flg}" == 'true' ]] && video_allow_dvr_flg='';
+
+      video_convert_to_vod_flg="$(jq --raw-output '.video.convert_to_vod_flg' <<<"${live_info}")";
+      [[ "${video_convert_to_vod_flg}" == 'true' ]] && video_convert_to_vod_flg='';
+
+      live_scheduled_start_at_second=$(date --date="${live_scheduled_start_at}" '+%s');
+
+      title="$(jq --raw-output '.title' <<<"${live_info}")";
+
+      thumbnail_url="$(jq --raw-output '.thumbnail_url' <<<"${live_info}")";
+      if [[ "${thumbnail_url}" != 'null' ]]; then
+        thumbnail_element="<img alt=\"${title}\" src=\"${thumbnail_url}\" height=\"72\" style=\"display: block;\">"
+      else
+        thumbnail_element='<i>no thumbnail</i>'
+      fi;
+      
+      if [[ "${video_allow_dvr_flg}" == 'false' ]]; then
+        status_dvr='&#10060'
+      else
+        status_dvr=""
+      fi;
+      
+      if [[ "${video_convert_to_vod_flg}" == 'false' ]]; then
+        status_vod='&#10060'
+      else
+#         status_vod="&#9989"
+        status_vod=""
+      fi;
+
+      if [[ ${now_second} -le ${live_scheduled_start_at_second} ]]; then
         if [[ ${live_scheduled_start_at_second} -le ${limit_second} ]]; then
           key="${live_scheduled_start_at_second} ${content_code}"
           value="$(
