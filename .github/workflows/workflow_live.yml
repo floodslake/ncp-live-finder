@@ -1,4 +1,4 @@
-name: Workflow
+name: Workflow Live
 on:
   workflow_dispatch:
   schedule:
