@@ -4,7 +4,7 @@ on:
   schedule:
     # "At 07:50"
     # https://crontab.guru/#50_10_*_*_*
-    - cron: "50 10 * * *"
+    - cron: "51 10 * * *"
     # "At 09:50"
     # https://crontab.guru/#50_13_*_*_5,6,0
     - cron: "40 13 * * *"
