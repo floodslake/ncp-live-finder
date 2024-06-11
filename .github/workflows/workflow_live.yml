@@ -4,7 +4,8 @@ on:
   schedule:
     # "At 8:20"
     # https://crontab.guru/#20_12_*_*_5,6,0
-    - cron: "58 11,13 * * *"
+    - cron: "58 11 * * *"
+    - cron: "30 14 * * *"
 
 jobs:
   fetch_publish:
