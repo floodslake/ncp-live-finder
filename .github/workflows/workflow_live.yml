@@ -26,7 +26,7 @@ jobs:
             --output '${{ env.downloaded_json_file_name }}' \
             --show-error \
             --silent \
-            'https://nfc-api.nicochannel.jp/fc/content_providers/channels'
+            'https://api.nicochannel.jp/fc/content_providers/channels'
 
       - name: Process data
         run: |
