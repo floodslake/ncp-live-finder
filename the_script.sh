@@ -186,11 +186,7 @@ while read -r channel_info; do
   fi;
 done < <(<"${channel_list_json}" jq --compact-output '.data.content_providers | .[]')
 
-if [[ "${#live_timestamp_code_row_map[@]}" -gt 0 ]]; then
-    echo "count of incoming live = ${#live_timestamp_code_row_map[@]}" >/dev/stderr
-else
-    echo "live_timestamp_code_row_map is empty" >/dev/stderr
-fi
+echo "count of incoming live = ${#live_timestamp_code_row_map[@]}" >/dev/stderr
 
 # sort live
 
