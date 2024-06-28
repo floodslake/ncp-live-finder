@@ -31,7 +31,7 @@ while read -r channel_info; do
   live_page_info="$(
     curl -sS \
       -H 'fc_use_device: null' \
-      "https://nfc-api.nicochannel.jp/fc/fanclub_sites/${fanclub_site_id}/live_pages?page=1&live_type=1&per_page=1" | \
+      "https://api.nicochannel.jp/fc/fanclub_sites/${fanclub_site_id}/live_pages?page=1&live_type=1&per_page=1" | \
     jq '.data' \
   )";
 
@@ -46,7 +46,7 @@ while read -r channel_info; do
       live_info="$(
         curl -sS \
           -H 'fc_use_device: null' \
-          "https://nfc-api.nicochannel.jp/fc/video_pages/${content_code}" | \
+          "https://api.nicochannel.jp/fc/video_pages/${content_code}" | \
         jq '.data.video_page' \
       )";
 
