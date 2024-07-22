@@ -19,6 +19,11 @@ file "${channel_list_json}" >/dev/stderr
 now_second=$(date '+%s');
 limit_second=$((${now_second} + ${offset_second}));
 
+decode_base64() {
+  local input="$1"
+  echo "$input" | base64 -d
+}
+
 parse_domain() {
   local url="$1"
   local stripped_url="${url#*://}"
@@ -114,7 +119,27 @@ declare -A live_timestamp_code_row_map
 #   live_page_info "https://api.nicochannel.jp/fc/fanclub_sites/${fanclub_site_id}/live_pages?page=1&live_type=1&per_page=1" "${fc_domain}"
 # done < <(<"${channel_list_json}" jq --compact-output '.data.content_providers | .[]')
 
-live_page_info "https://api.tenshi-nano.com/fc/fanclub_sites/524/live_pages?page=1&live_type=2&per_page=1" "https://tenshi-nano.com"
+# decoded_string=$(decode_base64 "$encoded_string")
+
+declare -A fanclubs
+
+fanclubs["100"]="cm5xcS5qcA==" #mct
+fanclubs["128"]="Y2FuYW44MTgxLmNvbQ==" #cnn
+fanclubs["243"]="a2Vtb21pbWlyZWZsZS5uZXQ=" #kmm
+fanclubs["337"]="cml6dW5hLW9mZmljaWFsLmNvbQ==" #rzn
+fanclubs["434"]="dWlzZS1vZmZpY2lhbC5jb20=" #ui
+fanclubs["524"]="dGVuc2hpLW5hbm8uY29t" #nn
+fanclubs["561"]="c2hlZXRhLWQwNC5jb20=" #spk
+
+for key in "${!fanclubs[@]}"; do
+  decoded_string=$(decode_base64 "${fanclubs[$key]}")
+  live_page_info "https://api.${decoded_string}/fc/fanclub_sites/$key/live_pages?page=1&live_type=1&per_page=1" "https://${decoded_string}"
+done
+
+for key in "${!fanclubs[@]}"; do
+  decoded_string=$(decode_base64 "${fanclubs[$key]}")
+  live_page_info "https://api.${decoded_string}/fc/fanclub_sites/$key/live_pages?page=1&live_type=2&per_page=1" "https://${decoded_string}"
+done
 
 echo "count of incoming live = ${#live_timestamp_code_row_map[@]}" >/dev/stderr
 
