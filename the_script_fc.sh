@@ -218,10 +218,6 @@ fanclubs["561"]="c2hlZXRhLWQwNC5jb20=" #spk
 for key in "${!fanclubs[@]}"; do
   decoded_string=$(decode_base64 "${fanclubs[$key]}")
   live_page_info_live "https://api.${decoded_string}/fc/fanclub_sites/$key/live_pages?page=1&live_type=1&per_page=1" "https://${decoded_string}"
-done
-
-for key in "${!fanclubs[@]}"; do
-  decoded_string=$(decode_base64 "${fanclubs[$key]}")
   live_page_info "https://api.${decoded_string}/fc/fanclub_sites/$key/live_pages?page=1&live_type=2&per_page=1" "https://${decoded_string}"
 done
 
