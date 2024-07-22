@@ -26,9 +26,8 @@ decode_base64() {
 
 parse_domain() {
   local url="$1"
-  local stripped_url="${url#*://}"
-  local subdomain="${stripped_url%%/*}"
-  local domain="${subdomain_url/#*/}"
+  local stripped_url="${url#*.}"
+  local domain="${stripped_url%%/*}"
   echo "$domain"
 }
 
