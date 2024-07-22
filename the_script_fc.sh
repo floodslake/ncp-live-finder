@@ -10,18 +10,23 @@ curl --version >/dev/stderr
 jq --version >/dev/stderr
 sort --version >/dev/stderr
 
+
 offset_second="$1"
 channel_list_json="$2"
 
 file "${channel_list_json}" >/dev/stderr
 
 now_second=$(date '+%s');
+one_hours=3600
 limit_second=$((${now_second} + ${offset_second}));
+last_hours=$((${now_second} - ${one_hours}));
+
 
 decode_base64() {
   local input="$1"
   echo "$input" | base64 -d
 }
+
 
 parse_domain() {
   local url="$1"
@@ -29,6 +34,7 @@ parse_domain() {
   local domain="${stripped_url%%/*}"
   echo "$domain"
 }
+
 
 live_page_info_live() {
   local url="$1"
@@ -106,6 +112,7 @@ live_page_info_live() {
     fi;
   fi;
 }
+
 
 live_page_info() {
   local url="$1"
@@ -191,6 +198,8 @@ live_page_info() {
     fi;
   fi;
 }
+
+
 # collect live
 
 declare -A live_timestamp_code_row_map
