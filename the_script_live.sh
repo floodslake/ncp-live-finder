@@ -26,7 +26,7 @@ decode_base64() {
 
 parse_domain() {
   local url="$1"
-  local stripped_url="${url#*.}"
+  local stripped_url="${url#*://}"
   local domain="${stripped_url%%/*}"
   echo "$domain"
 }
@@ -34,7 +34,7 @@ parse_domain() {
 live_page_info() {
   local url="$1"
   local domain="$2"
-  local url_domain=$(parse_domain "$url")
+  local domain_api=$(parse_domain "$url")
   
   local live_page_info="$(
     curl -sS \
@@ -54,7 +54,7 @@ live_page_info() {
       local live_info="$(
         curl -sS \
           -H 'fc_use_device: null' \
-          "https://api.{$url_domain}/fc/video_pages/${content_code}" | \
+          "https://{$domain_api}/fc/video_pages/${content_code}" | \
         jq '.data.video_page' \
       )";
 
