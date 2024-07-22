@@ -206,6 +206,7 @@ declare -A live_timestamp_code_row_map
 
 declare -A fanclubs
 
+fanclubs["58"]="dG9raW5vc29yYS1mYy5jb20=" #tknsr
 fanclubs["100"]="cm5xcS5qcA==" #mct
 fanclubs["128"]="Y2FuYW44MTgxLmNvbQ==" #cnn
 fanclubs["243"]="a2Vtb21pbWlyZWZsZS5uZXQ=" #kmm
