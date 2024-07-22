@@ -19,50 +19,53 @@ file "${channel_list_json}" >/dev/stderr
 now_second=$(date '+%s');
 limit_second=$((${now_second} + ${offset_second}));
 
+parse_domain() {
+  local url="$1"
+  local stripped_url="${url#*://}"
+  local domain="${stripped_url%%/*}"
+  echo "$domain"
+}
 
-# collect live
-
-declare -A live_timestamp_code_row_map
-
-while read -r channel_info; do
-  fanclub_site_id="$(jq --raw-output '.id' <<<"${channel_info}")";
-  domain="$(jq --raw-output '.domain' <<<"${channel_info}")";
-
-  live_page_info="$(
+live_page_info() {
+  local url="$1"
+  local domain="$2"
+  local url_domain=$(parse_domain "$url")
+  
+  local live_page_info="$(
     curl -sS \
       -H 'fc_use_device: null' \
-      "https://api.nicochannel.jp/fc/fanclub_sites/${fanclub_site_id}/live_pages?page=1&live_type=1&per_page=1" | \
+      "$url" | \
     jq '.data' \
   )";
 
   if [[ "${live_page_info}" != 'null' ]]; then
-    live_list="$(jq '.video_pages.list' <<<"${live_page_info}")";
+    local live_list="$(jq '.video_pages.list' <<<"${live_page_info}")";
 
     if [[ "${live_list}" != '[]' ]]; then
-      content_code="$(jq --raw-output '.[0].content_code' <<<"${live_list}")";
+      local content_code="$(jq --raw-output '.[0].content_code' <<<"${live_list}")";
 
       echo "processing [${domain}/live/${content_code}]" >/dev/stderr
 
-      live_info="$(
+      local live_info="$(
         curl -sS \
           -H 'fc_use_device: null' \
-          "https://api.nicochannel.jp/fc/video_pages/${content_code}" | \
+          "https://api.{$url_domain}/fc/video_pages/${content_code}" | \
         jq '.data.video_page' \
       )";
 
-      live_scheduled_start_at="$(jq --raw-output '.live_scheduled_start_at' <<<"${live_info}")";
+      local live_scheduled_start_at="$(jq --raw-output '.live_scheduled_start_at' <<<"${live_info}")";
 
-      video_allow_dvr_flg="$(jq --raw-output '.video.allow_dvr_flg' <<<"${live_info}")";
+      local video_allow_dvr_flg="$(jq --raw-output '.video.allow_dvr_flg' <<<"${live_info}")";
       [[ "${video_allow_dvr_flg}" == 'true' ]] && video_allow_dvr_flg='';
 
-      video_convert_to_vod_flg="$(jq --raw-output '.video.convert_to_vod_flg' <<<"${live_info}")";
+      local video_convert_to_vod_flg="$(jq --raw-output '.video.convert_to_vod_flg' <<<"${live_info}")";
       [[ "${video_convert_to_vod_flg}" == 'true' ]] && video_convert_to_vod_flg='';
 
-      live_scheduled_start_at_second=$(date --date="${live_scheduled_start_at}" '+%s');
+      local live_scheduled_start_at_second=$(date --date="${live_scheduled_start_at}" '+%s');
 
-      title="$(jq --raw-output '.title' <<<"${live_info}")";
+      local title="$(jq --raw-output '.title' <<<"${live_info}")";
 
-      thumbnail_url="$(jq --raw-output '.thumbnail_url' <<<"${live_info}")";
+      local thumbnail_url="$(jq --raw-output '.thumbnail_url' <<<"${live_info}")";
       if [[ "${thumbnail_url}" != 'null' ]]; then
         thumbnail_element="<img alt=\"${title}\" src=\"${thumbnail_url}\" height=\"72\" style=\"display: block;\">"
       else
@@ -81,8 +84,8 @@ while read -r channel_info; do
         status_vod=""
       fi;
 
-      key="${live_scheduled_start_at_second} ${content_code}"
-      value="$(
+      local key="${live_scheduled_start_at_second} ${content_code}"
+      local value="$(
         cat <<-TABLE_ROW
 			<tr>
 				<td><a href="${domain}/lives" rel="noreferrer noopener" target="_blank">${thumbnail_element}</a></td>
@@ -97,7 +100,21 @@ while read -r channel_info; do
       echo -e '\t''collected live' >/dev/stderr
     fi;
   fi;
-done < <(<"${channel_list_json}" jq --compact-output '.data.content_providers | .[]')
+}
+
+
+# collect live
+
+declare -A live_timestamp_code_row_map
+
+# while read -r channel_info; do
+#   fanclub_site_id="$(jq --raw-output '.id' <<<"${channel_info}")";
+#   domain="$(jq --raw-output '.domain' <<<"${channel_info}")";
+  
+#   live_page_info "https://api.nicochannel.jp/fc/fanclub_sites/${fanclub_site_id}/live_pages?page=1&live_type=1&per_page=1" "${fc_domain}"
+# done < <(<"${channel_list_json}" jq --compact-output '.data.content_providers | .[]')
+
+live_page_info "https://api.tenshi-nano.com/fc/fanclub_sites/524/live_pages?page=1&live_type=2&per_page=1" "https://tenshi-nano.com"
 
 echo "count of incoming live = ${#live_timestamp_code_row_map[@]}" >/dev/stderr
 
