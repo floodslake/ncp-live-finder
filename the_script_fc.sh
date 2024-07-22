@@ -10,16 +10,13 @@ curl --version >/dev/stderr
 jq --version >/dev/stderr
 sort --version >/dev/stderr
 
-
 offset_second="$1"
 channel_list_json="$2"
 
 file "${channel_list_json}" >/dev/stderr
 
 now_second=$(date '+%s');
-one_hours=3600
 limit_second=$((${now_second} + ${offset_second}));
-last_hours=$((${now_second} - ${one_hours}));
 
 decode_base64() {
   local input="$1"
