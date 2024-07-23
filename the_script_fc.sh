@@ -189,8 +189,7 @@ live_page_info() {
           live_timestamp_code_row_map["${key}"]="${value}"
 
           echo -e '\t''collected' >/dev/stderr
-
-          continue
+	  
         fi;
       fi;
 
