@@ -72,6 +72,7 @@ live_page_info_live() {
       [[ "${video_convert_to_vod_flg}" == 'true' ]] && video_convert_to_vod_flg='';
 
       local live_scheduled_start_at_second=$(date --date="${live_scheduled_start_at}" '+%s');
+      local live_started_at_second=$(date --date="${live_started_at}" '+%s');
 
       local title="$(jq --raw-output '.title' <<<"${live_info}")";
 
@@ -95,12 +96,12 @@ live_page_info_live() {
         status_vod=""
       fi;
 
-      local key="${live_scheduled_start_at_second} ${content_code}"
+      local key="${live_started_at_second} ${content_code}"
       local value="$(
         cat <<-TABLE_ROW
 			<tr>
 				<td><a href="${domain}/lives" rel="noreferrer noopener" target="_blank">${thumbnail_element}</a></td>
-				<td>${live_scheduled_start_at} <a href="${domain}/live/${content_code}" rel="noreferrer noopener" target="_blank">${content_code}</a> &#x1F534<br>${title}</td>
+				<td>${live_started_at_second} <a href="${domain}/live/${content_code}" rel="noreferrer noopener" target="_blank">${content_code}</a> &#x1F534<br>${title}</td>
 				<td>${status_dvr}</td>
 				<td>${status_vod}</td>
 			</tr>
