@@ -153,8 +153,6 @@ live_page_info() {
       local video_convert_to_vod_flg="$(jq --raw-output '.video.convert_to_vod_flg' <<<"${live_info}")";
       [[ "${video_convert_to_vod_flg}" == 'true' ]] && video_convert_to_vod_flg='';
 
-      local live_scheduled_start_at_second=$(date --date="${live_scheduled_start_at}" '+%s');
-
       local title="$(jq --raw-output '.title' <<<"${live_info}")";
 
       local thumbnail_url="$(jq --raw-output '.thumbnail_url' <<<"${live_info}")";
@@ -164,10 +162,18 @@ live_page_info() {
         thumbnail_element='<i>no thumbnail</i>'
       fi;
       
+      if [[ "${live_started_at}" != "null" ]]; then
+        live_scheduled_start_at_second=$(date --date="${live_started_at}" '+%s');
+        live_status=' &#x1F534'
+      else
+        live_scheduled_start_at_second=$(date --date="${live_scheduled_start_at}" '+%s');
+        live_status=''
+      fi;
+      
       if [[ "${video_allow_dvr_flg}" == 'false' ]]; then
         status_dvr='&#10060'
       else
-        status_dvr=""
+        status_dvr=''
       fi;
       
       if [[ "${video_convert_to_vod_flg}" == 'false' ]]; then
@@ -184,7 +190,7 @@ live_page_info() {
             cat <<-TABLE_ROW
 						  <tr>
 						    <td><a href="${domain}/lives" rel="noreferrer noopener" target="_blank">${thumbnail_element}</a></td>
-						    <td>${live_scheduled_start_at} <a href="${domain}/live/${content_code}" rel="noreferrer noopener" target="_blank">${content_code}</a><br>${title}</td>
+						    <td>${live_scheduled_start_at} <a href="${domain}/live/${content_code}" rel="noreferrer noopener" target="_blank">${content_code}</a>${live_status}<br>${title}</td>
 						    <td>${status_dvr}</td>
 						    <td>${status_vod}</td>
 						  </tr>
@@ -215,7 +221,7 @@ fanclubs["561"]="c2hlZXRhLWQwNC5jb20=" #spk
 
 for key in "${!fanclubs[@]}"; do
   decoded_string=$(decode_base64 "${fanclubs[$key]}")
-  live_page_info_live "https://api.${decoded_string}/fc/fanclub_sites/$key/live_pages?page=1&live_type=1&per_page=1" "https://${decoded_string}"
+  live_page_info "https://api.${decoded_string}/fc/fanclub_sites/$key/live_pages?page=1&live_type=1&per_page=1" "https://${decoded_string}"
   live_page_info "https://api.${decoded_string}/fc/fanclub_sites/$key/live_pages?page=1&live_type=2&per_page=1" "https://${decoded_string}"
 done
 
