@@ -106,7 +106,7 @@ live_page_info_live() {
         cat <<-TABLE_ROW
 			<tr>
 				<td><a href="${domain}/lives" rel="noreferrer noopener" target="_blank">${thumbnail_element}</a></td>
-				<td>${live_started_at_second} <a href="${domain}/live/${content_code}" rel="noreferrer noopener" target="_blank">${content_code}</a> &#x1F534<br>${title}</td>
+				<td>${live_started_at} <a href="${domain}/live/${content_code}" rel="noreferrer noopener" target="_blank">${content_code}</a> &#x1F534<br>${title}</td>
 				<td>${status_dvr}</td>
 				<td>${status_vod}</td>
 			</tr>
