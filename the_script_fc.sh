@@ -21,6 +21,10 @@ one_hours=3600
 limit_second=$((${now_second} + ${offset_second}));
 last_hours=$((${now_second} - ${one_hours}));
 
+# collect live
+
+declare -A live_timestamp_code_row_map
+
 
 decode_base64() {
   local input="$1"
@@ -197,11 +201,6 @@ live_page_info() {
     fi;
   fi;
 }
-
-
-# collect live
-
-declare -A live_timestamp_code_row_map
 
 declare -A fanclubs
 
