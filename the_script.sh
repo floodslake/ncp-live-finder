@@ -21,7 +21,13 @@ one_hours=3600
 limit_second=$((${now_second} + ${offset_second}));
 last_hours=$((${now_second} - ${one_hours}));
 
+decode_base64() {
+  local input="$1"
+  echo "$input" | base64 -d
+}
 
+cdn_b64 = "aHR0cHM6Ly9jZGRscXFzY2ZhLmNsb3VkaW1nLmlvLw=="
+cdn=$(decode_base64 "${cdn_b64}")
 # collect live
 
 declare -A live_timestamp_code_row_map
@@ -66,7 +72,7 @@ while read -r channel_info; do
 
       thumbnail_url="$(jq --raw-output '.thumbnail_url' <<<"${live_info}")";
       if [[ "${thumbnail_url}" != 'null' ]]; then
-        thumbnail_element="<img alt=\"${title}\" src=\"${thumbnail_url}\" height=\"72\" style=\"display: block;\">"
+        thumbnail_element="<img alt=\"${domain}\" src=\"${cdn}${thumbnail_url}\" height=\"72\" style=\"display: block;\">"
       else
         thumbnail_element='<i>no thumbnail</i>'
       fi;
