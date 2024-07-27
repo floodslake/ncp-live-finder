@@ -26,7 +26,7 @@ decode_base64() {
   echo "$input" | base64 -d
 }
 
-cdn_b64 = "aHR0cHM6Ly9jZGRscXFzY2ZhLmNsb3VkaW1nLmlvLw=="
+cdn_b64="aHR0cHM6Ly9jZGRscXFzY2ZhLmNsb3VkaW1nLmlvLw=="
 cdn=$(decode_base64 "${cdn_b64}")
 # collect live
 
