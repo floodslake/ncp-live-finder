@@ -212,7 +212,7 @@ fanclubs["100"]="cm5xcS5qcA==" #mct
 fanclubs["128"]="Y2FuYW44MTgxLmNvbQ==" #cnn
 fanclubs["243"]="a2Vtb21pbWlyZWZsZS5uZXQ=" #kmm
 fanclubs["337"]="cml6dW5hLW9mZmljaWFsLmNvbQ==" #rzn
-fanclubs["350"]="bWFsaWNlLWtpYmFuYS5jb20===" #mlc
+fanclubs["350"]="bWFsaWNlLWtpYmFuYS5jb20=" #mlc
 fanclubs["434"]="dWlzZS1vZmZpY2lhbC5jb20=" #ui
 fanclubs["524"]="dGVuc2hpLW5hbm8uY29t" #nn
 fanclubs["561"]="c2hlZXRhLWQwNC5jb20=" #spk
