@@ -216,6 +216,7 @@ fanclubs["350"]="bWFsaWNlLWtpYmFuYS5jb20=" #mlc
 fanclubs["434"]="dWlzZS1vZmZpY2lhbC5jb20=" #ui
 fanclubs["524"]="dGVuc2hpLW5hbm8uY29t" #nn
 fanclubs["561"]="c2hlZXRhLWQwNC5jb20=" #spk
+fanclubs["618"]="bmlnaHRtYXJlLXNhbG9uLmNvbQ==" #mr
 
 for key in "${!fanclubs[@]}"; do
   decoded_string=$(decode_base64 "${fanclubs[$key]}")
