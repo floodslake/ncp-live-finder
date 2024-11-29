@@ -83,7 +83,7 @@ live_page_info_live() {
 
       local thumbnail_url="$(jq --raw-output '.thumbnail_url' <<<"${live_info}")";
       if [[ "${thumbnail_url}" != 'null' ]]; then
-        thumbnail_element="<img alt=\"${title}\" src=\"${thumbnail_url}\" height=\"72\" style=\"display: block;\">"
+        thumbnail_element="<img src=\"${thumbnail_url}\" height=\"72\" style=\"display: block;\">"
       else
         thumbnail_element='<i>no thumbnail</i>'
       fi;
@@ -163,7 +163,7 @@ live_page_info() {
 
       local thumbnail_url="$(jq --raw-output '.thumbnail_url' <<<"${live_info}")";
       if [[ "${thumbnail_url}" != 'null' ]]; then
-        thumbnail_element="<img alt=\"${title}\" src=\"${thumbnail_url}\" height=\"72\" style=\"display: block;\">"
+        thumbnail_element="<img src=\"${thumbnail_url}\" height=\"72\" style=\"display: block;\">"
       else
         thumbnail_element='<i>no thumbnail</i>'
       fi;
