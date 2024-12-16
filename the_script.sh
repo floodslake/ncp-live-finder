@@ -66,7 +66,8 @@ while read -r channel_info; do
 
       thumbnail_url="$(jq --raw-output '.thumbnail_url' <<<"${live_info}")";
       if [[ "${thumbnail_url}" != 'null' ]]; then
-        thumbnail_element="<img src=\"${thumbnail_url}\" height=\"72\" style=\"display: block;\">"
+        new_thumbnail_url=$(echo "$thumbnail_url" | sed 's|\(https://\)\([^/]*\)\(\/.*\)|\1cdn.\2\3|')
+        thumbnail_element="<img src=\"${new_thumbnail_url}\" height=\"72\" style=\"display: block;\">"
       else
         thumbnail_element='<i>no thumbnail</i>'
       fi;
