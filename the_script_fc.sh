@@ -43,6 +43,7 @@ parse_domain() {
 live_page_info_live() {
   local url="$1"
   local domain="$2"
+  local fc_id="$3"
   local api_domain=$(parse_domain "$url")
   
   local live_page_info="$(
@@ -62,6 +63,7 @@ live_page_info_live() {
 
       local live_info="$(
         curl -sS \
+          -H "fc_site_id: $fc_id" \
           -H 'fc_use_device: null' \
           "https://{$api_domain}/fc/video_pages/${content_code}" | \
         jq '.data.video_page' \
@@ -123,6 +125,7 @@ live_page_info_live() {
 live_page_info() {
   local url="$1"
   local domain="$2"
+  local fc_id="$3"
   local api_domain=$(parse_domain "$url")
   
   live_page_info="$(
@@ -142,6 +145,7 @@ live_page_info() {
 
       local live_info="$(
         curl -sS \
+          -H "fc_site_id: $fc_id" \
           -H 'fc_use_device: null' \
           "https://{$api_domain}/fc/video_pages/${content_code}" | \
         jq '.data.video_page' \
@@ -221,8 +225,8 @@ fanclubs["677"]="bXVuZWF0c3UtZmMuY29t" #nefson
 
 for key in "${!fanclubs[@]}"; do
   decoded_string=$(decode_base64 "${fanclubs[$key]}")
-  live_page_info_live "https://api.${decoded_string}/fc/fanclub_sites/$key/live_pages?page=1&live_type=1&per_page=1" "https://${decoded_string}"
-  live_page_info "https://api.${decoded_string}/fc/fanclub_sites/$key/live_pages?page=1&live_type=2&per_page=1" "https://${decoded_string}"
+  live_page_info_live "https://api.${decoded_string}/fc/fanclub_sites/$key/live_pages?page=1&live_type=1&per_page=1" "https://${decoded_string}" $key
+  live_page_info "https://api.${decoded_string}/fc/fanclub_sites/$key/live_pages?page=1&live_type=2&per_page=1" "https://${decoded_string}" $key
 done
 
 echo "count of incoming live = ${#live_timestamp_code_row_map[@]}" >/dev/stderr
