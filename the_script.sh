@@ -48,6 +48,7 @@ while read -r channel_info; do
 
       live_info="$(
         curl -sS \
+	  -H "fc_site_id: ${fanclub_site_id}" \
           -H 'fc_use_device: null' \
           "https://api.nicochannel.jp/fc/video_pages/${content_code}" | \
         jq '.data.video_page' \
