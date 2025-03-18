@@ -61,10 +61,12 @@ while read -r channel_info; do
 
       video_convert_to_vod_flg="$(jq --raw-output '.video.convert_to_vod_flg' <<<"${live_info}")";
       [[ "${video_convert_to_vod_flg}" == 'true' ]] && video_convert_to_vod_flg='';
+      
       if [[ -z "$live_scheduled_start_at" ]]; then
       	live_scheduled_start_at_second=$(date --date="9999-12-31" '+%s');
       else
       	live_scheduled_start_at_second=$(date --date="${live_scheduled_start_at}" '+%s');
+      fi;
 
       title="$(jq --raw-output '.title' <<<"${live_info}")";
 
