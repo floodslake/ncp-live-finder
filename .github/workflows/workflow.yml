@@ -7,7 +7,7 @@ on:
     - cron: "50 10 * * *"
     # "At 09:50"
     # https://crontab.guru/#50_13_*_*_5,6,0
-    - cron: "35 13 * * *"
+    - cron: "30 13 * * *"
 
 jobs:
   fetch_publish:
