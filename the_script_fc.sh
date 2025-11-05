@@ -224,6 +224,7 @@ fanclubs["618"]="bmlnaHRtYXJlLXNhbG9uLmNvbQ==" #mr
 fanclubs["677"]="bXVuZWF0c3UtZmMuY29t" #nefson
 fanclubs["764"]="cmlydXJ1LW9mZmljaWFsLmNvbQ==" #rrr
 fanclubs["884"]="aG9uZGEtcG9rby5jb20=" #pk
+fanclubs["940"]="YW1hY2hpaGFydS1mYy5jb20=" #amchr
 
 
 for key in "${!fanclubs[@]}"; do
