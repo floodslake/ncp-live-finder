@@ -1,4 +1,4 @@
-name: Monthly History Cleanup
+name: Cleanup
 on:
   schedule:
     - cron: '0 0 1 * *'
@@ -10,9 +10,31 @@ jobs:
     permissions:
       actions: write
     steps:
-      - name: Delete all workflow runs
+      - name: Delete workflow runs in multiple repos
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          # We add the --repo flag so the CLI knows exactly where to look
-          gh run list --repo ${{ github.repository }} --order asc --limit 1000 --json databaseId -q '.[].databaseId' | xargs -I{} gh run delete --repo ${{ github.repository }} {}
+          # Define your repositories here
+          REPOS=("${{ github.repository }}" "owner/second-repo")
+
+          for REPO in "${REPOS[@]}"; do
+            echo "Processing $REPO..."
+            
+            # Fetch IDs
+            RUN_IDS=$(gh run list --repo "$REPO" --order asc --limit 500 --json databaseId -q '.[].databaseId')
+
+            for ID in $RUN_IDS; do
+              echo "Deleting $ID from $REPO..."
+              if gh run delete --repo "$REPO" "$ID"; then
+                sleep 2 # The safety delay
+              else
+                echo "Failed to delete $ID, stopping to prevent further errors."
+                exit 1
+              fi
+            done
+          done
+
+      - name: Check Remaining Rate Limit
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh api rate_limit --jq '.resources.core'
