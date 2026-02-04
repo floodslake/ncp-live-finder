@@ -8,12 +8,11 @@ jobs:
   delete-runs:
     runs-on: ubuntu-latest
     permissions:
-      actions: write # Required to delete runs
-      contents: read
+      actions: write
     steps:
       - name: Delete all workflow runs
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          # This command gets all run IDs and deletes them
-          gh run list --limit 999 --json databaseId -q '.[].databaseId' | xargs -I{} gh run delete {}
+          # We add the --repo flag so the CLI knows exactly where to look
+          gh run list --repo ${{ github.repository }} --limit 1000 --json databaseId -q '.[].databaseId' | xargs -I{} gh run delete --repo ${{ github.repository }} {}
