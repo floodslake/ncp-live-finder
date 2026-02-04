@@ -15,4 +15,4 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           # We add the --repo flag so the CLI knows exactly where to look
-          gh run list --repo ${{ github.repository }} --limit 1000 --json databaseId -q '.[].databaseId' | xargs -I{} gh run delete --repo ${{ github.repository }} {}
+          gh run list --repo ${{ github.repository }} --order asc --limit 1000 --json databaseId -q '.[].databaseId' | xargs -I{} gh run delete --repo ${{ github.repository }} {}
