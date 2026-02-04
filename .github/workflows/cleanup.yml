@@ -10,28 +10,29 @@ jobs:
     permissions:
       actions: write
     steps:
-      - name: Delete workflow runs in multiple repos
+      - name: Delete workflow runs
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          # Define your repositories here
-          REPOS=("${{ github.repository }}" "owner/second-repo")
+          REPO="${{ github.repository }}"
+          echo "Processing $REPO..."
+          
+          # Fetch up to 500 IDs, oldest first
+          RUN_IDS=$(gh run list --repo "$REPO" --order asc --limit 500 --json databaseId -q '.[].databaseId')
 
-          for REPO in "${REPOS[@]}"; do
-            echo "Processing $REPO..."
-            
-            # Fetch IDs
-            RUN_IDS=$(gh run list --repo "$REPO" --order asc --limit 500 --json databaseId -q '.[].databaseId')
+          # Check if there are any runs to delete
+          if [ -z "$RUN_IDS" ]; then
+            echo "No runs found to delete."
+            exit 0
+          fi
 
-            for ID in $RUN_IDS; do
-              echo "Deleting $ID from $REPO..."
-              if gh run delete --repo "$REPO" "$ID"; then
-                sleep 2 # The safety delay
-              else
-                echo "Failed to delete $ID, stopping to prevent further errors."
-                exit 1
-              fi
-            done
+          for ID in $RUN_IDS; do
+            echo "Deleting $ID from $REPO..."
+            if gh run delete --repo "$REPO" "$ID"; then
+              sleep 2 # The safety delay
+            else
+              echo "Failed to delete $ID. It might have already been deleted or the API is busy."
+            fi
           done
 
       - name: Check Remaining Rate Limit
