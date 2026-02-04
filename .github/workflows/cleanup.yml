@@ -1,17 +1,19 @@
-name: Delete Old Runs
+name: Monthly History Cleanup
 on:
   schedule:
     - cron: '0 0 1 * *'
-  workflow_dispatch: # Allows you to run this manually from the UI
+  workflow_dispatch: 
 
 jobs:
   delete-runs:
     runs-on: ubuntu-latest
+    permissions:
+      actions: write # Required to delete runs
+      contents: read
     steps:
-      - name: Delete workflow runs
-        uses: Mattraiano/delete-workflow-runs@v2
-        with:
-          token: ${{ github.token }}
-          repository: ${{ github.repository }}
-          retain_days: 30  # Set to 0 to delete everything
-          keep_minimum_runs: 0
+      - name: Delete all workflow runs
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          # This command gets all run IDs and deletes them
+          gh run list --limit 999 --json databaseId -q '.[].databaseId' | xargs -I{} gh run delete {}
