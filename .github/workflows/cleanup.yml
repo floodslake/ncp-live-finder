@@ -50,9 +50,9 @@ jobs:
 
             # 4. Delete them
             for ID in $RUN_IDS; do
-              echo "Deleting oldest run: $ID"
+              echo "Deleting: $ID"
               gh run delete --repo "$REPO" "$ID"
-              sleep 4
+              sleep $((1 + RANDOM % 2))
             done
           done
           
