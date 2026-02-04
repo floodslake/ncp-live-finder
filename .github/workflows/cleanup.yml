@@ -47,3 +47,8 @@ jobs:
             gh run delete --repo "$REPO" "$ID"
             sleep 2
           done
+          
+      - name: Check Remaining Rate Limit
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh api rate_limit --jq '.resources.core'
