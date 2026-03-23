@@ -1,4 +1,4 @@
-name: Workflow
+name: Workflow_s
 on:
   workflow_dispatch:
   schedule:
