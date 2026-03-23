@@ -22,7 +22,7 @@ jobs:
         with:
           fetch-depth: 1
 
-      - name: Fetch channel info from nicochannel.jp
+      - name: Fetch channel info from s_.com
         run: |
           set -e
           curl \
@@ -36,7 +36,7 @@ jobs:
           set -e
           1>'${{ env.generated_markdown_file_name }}' \
             bash \
-              ./the_script.sh \
+              ./the_script_s.sh \
                 '604800' \
                 '${{ env.downloaded_json_file_name }}'
 
