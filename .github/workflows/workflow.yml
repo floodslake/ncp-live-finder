@@ -4,8 +4,7 @@ on:
   schedule:
     # "At 07:50"
     # https://crontab.guru/#50_10_*_*_*
-    - cron: "4 10,12,13 * * *"
-    - cron: "59 11 * * *"
+    - cron: "5 10,11,12,13 * * *"
 
 jobs:
   fetch_publish:
@@ -18,6 +17,9 @@ jobs:
       - uses: actions/checkout@v3.2.0
         with:
           fetch-depth: 1
+      
+      - name: Print current time
+        run: date
 
       - name: Fetch channel info from nicochannel.jp
         run: |
