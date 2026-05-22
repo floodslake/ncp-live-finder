@@ -5,9 +5,10 @@ on:
     # "At 8:20"
     # https://crontab.guru/#20_12_*_*_5,6,0
     # - cron: "56 11 * * *"
-    - cron: "29 15 * * *"
-    - cron: "29 14 * * *"
-    - cron: "29 12 * * *"
+    - cron: "1 15 * * *"
+    - cron: "1 14 * * *"
+    - cron: "1 13 * * *"
+    - cron: "1 12 * * *"
 
 jobs:
   fetch_publish:
