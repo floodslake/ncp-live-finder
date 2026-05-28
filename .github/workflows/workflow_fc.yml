@@ -4,10 +4,10 @@ on:
   schedule:
     # "At 8:20"
     # https://crontab.guru/#20_12_*_*_5,6,0
-    - cron: "32 14 * * *"
     - cron: "32 13 * * *"
     - cron: "32 12 * * *"
     - cron: "32 10 * * *"
+    - cron: "32 9 * * *"
 
 jobs:
   fetch_publish:
