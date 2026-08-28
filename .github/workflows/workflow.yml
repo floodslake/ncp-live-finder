@@ -1,5 +1,8 @@
 name: Workflow
 on:
+  push:
+    paths: 
+    - "temp.log"
   workflow_dispatch:
   schedule:
     # "At 07:50"
