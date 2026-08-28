@@ -1,14 +1,14 @@
 name: Workflow Live
 on:
   workflow_dispatch:
-  schedule:
-    # "At 8:20"
-    # https://crontab.guru/#20_12_*_*_5,6,0
-    # - cron: "56 11 * * *"
-    - cron: "19 14 * * *"
-    - cron: "19 13 * * *"
-    - cron: "19 12 * * *"
-    - cron: "19 11 * * *"
+  # schedule:
+  #   # "At 8:20"
+  #   # https://crontab.guru/#20_12_*_*_5,6,0
+  #   # - cron: "56 11 * * *"
+  #   - cron: "19 14 * * *"
+  #   - cron: "19 13 * * *"
+  #   - cron: "19 12 * * *"
+  #   - cron: "19 11 * * *"
 
 jobs:
   fetch_publish:
