@@ -4,13 +4,13 @@ on:
     paths: 
     - "temp.log"
   workflow_dispatch:
-  schedule:
-    # "At 8:20"
-    # https://crontab.guru/#20_12_*_*_5,6,0
-    - cron: "32 12 * * *"
-    - cron: "32 11 * * *"
-    - cron: "32 10 * * *"
-    - cron: "32 9 * * *"
+  # schedule:
+  #   # "At 8:20"
+  #   # https://crontab.guru/#20_12_*_*_5,6,0
+  #   - cron: "32 12 * * *"
+  #   - cron: "32 11 * * *"
+  #   - cron: "32 10 * * *"
+  #   - cron: "32 9 * * *"
 
 jobs:
   fetch_publish:
