@@ -1,7 +1,8 @@
 name: Workflow Live
 on:
   workflow_dispatch:
-  # schedule:
+  schedule:
+    - cron: "0 8 * * *"
   #   # "At 8:20"
   #   # https://crontab.guru/#20_12_*_*_5,6,0
   #   # - cron: "56 11 * * *"
