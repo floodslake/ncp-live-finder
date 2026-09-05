@@ -68,7 +68,7 @@ live_page_info_live() {
           "https://{$api_domain}/fc/video_pages/${content_code}" | \
         jq '.data.video_page' \
       )";
-	  sleep 1
+	  sleep 0.2
 
       local live_scheduled_start_at="$(jq --raw-output '.live_scheduled_start_at' <<<"${live_info}")";
       local live_started_at="$(jq --raw-output '.live_started_at' <<<"${live_info}")";
@@ -151,7 +151,7 @@ live_page_info() {
           "https://{$api_domain}/fc/video_pages/${content_code}" | \
         jq '.data.video_page' \
       )";
-	  sleep 1
+	  sleep 0.2
 
       local live_scheduled_start_at="$(jq --raw-output '.live_scheduled_start_at' <<<"${live_info}")";
       local live_started_at="$(jq --raw-output '.live_started_at' <<<"${live_info}")";
