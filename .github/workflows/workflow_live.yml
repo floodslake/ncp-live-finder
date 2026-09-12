@@ -2,7 +2,7 @@ name: Workflow Live
 on:
   workflow_dispatch:
   schedule:
-    - cron: "0 7 * * *"
+    - cron: "0 10 * * *"
   #   # "At 8:20"
   #   # https://crontab.guru/#20_12_*_*_5,6,0
   #   # - cron: "56 11 * * *"
