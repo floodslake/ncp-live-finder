@@ -51,7 +51,7 @@ def main():
             return
 
         # 1. Fetch live pages
-        list_url = f"https://api.<DOMAIN>.jp/fc/fanclub_sites/{fanclub_site_id}/live_pages?page=1&live_type={live_type}&per_page=1"
+        list_url = f"https://api.nicochannel.jp/fc/fanclub_sites/{fanclub_site_id}/live_pages?page=1&live_type={live_type}&per_page=1"
         page_info = api_get(list_url, fanclub_site_id)
         if not page_info or page_info.get("data") is None:
             return
@@ -67,7 +67,7 @@ def main():
         print(f"Processing [{domain}/live/{content_code}]", file=sys.stderr)
 
         # 2. Fetch video details
-        detail_url = f"https://api.<DOMAIN>.jp/fc/video_pages/{content_code}"
+        detail_url = f"https://api.nicochannel.jp/fc/video_pages/{content_code}"
         detail_info = api_get(detail_url, fanclub_site_id)
         if not detail_info or not detail_info.get("data"):
             return
