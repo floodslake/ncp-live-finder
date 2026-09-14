@@ -35,6 +35,11 @@ jobs:
             --silent \
             'https://api.nicochannel.jp/fc/content_providers/channels'
 
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          
       - name: Process data with Python
         run: |
           python3 process_lives.py \
