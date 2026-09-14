@@ -35,14 +35,17 @@ jobs:
             --silent \
             'https://api.nicochannel.jp/fc/content_providers/channels'
 
-      - name: Process data
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          
+      - name: Process data with Python
         run: |
-          set -e
-          1>'${{ env.generated_markdown_file_name }}' \
-            bash \
-              ./the_script.sh \
-                '604800' \
-                '${{ env.downloaded_json_file_name }}'
+          python3 process_lives.py \
+            '604800' \
+            '${{ env.downloaded_json_file_name }}' \
+            > '${{ env.generated_markdown_file_name }}'
 
       - name: Read ${{ env.generated_markdown_file_name }}
         id: read_result_file
