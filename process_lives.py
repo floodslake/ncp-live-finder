@@ -113,12 +113,12 @@ def main():
         red_dot = "&#x1F534;" if live_type == 1 else ""
 
         # HTML Table Row generation
-        row_html = f"""            <tr>
-                <td><a href="{domain}/lives" rel="noreferrer noopener" target="_blank">{thumb_link_content}</a></td>
-                <td>{live_scheduled_start_at} <a href="{domain}/live/{content_code}" rel="noreferrer noopener" target="_blank">{content_code}</a> {red_dot}<br>{title}</td>
-                <td>{status_dvr}</td>
-                <td>{status_vod}</td>
-            </tr>"""
+        row_html = f"""<tr>
+<td><a href="{domain}/lives" rel="noreferrer noopener" target="_blank">{thumb_link_content}</a></td>
+<td>{live_scheduled_start_at} <a href="{domain}/live/{content_code}" rel="noreferrer noopener" target="_blank">{content_code}</a> {red_dot}<br>{title}</td>
+<td>{status_dvr}</td>
+<td>{status_vod}</td>
+</tr>"""
 
         live_map[(start_second, content_code)] = row_html
         print("\tcollected", file=sys.stderr)
