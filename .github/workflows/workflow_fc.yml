@@ -4,8 +4,8 @@ on:
     paths: 
     - "temp.log"
   workflow_dispatch:
-  schedule:
-    - cron: "0 7 * * *"
+  # schedule:
+  #   - cron: "0 7 * * *"
   #   # "At 8:20"
   #   # https://crontab.guru/#20_12_*_*_5,6,0
   #   - cron: "32 12 * * *"
